@@ -1,0 +1,28 @@
+Steps to run the dashboard on the lab PC
+=========================================
+
+1. Open PowerShell (or Command Prompt)
+
+2. Clone the repository:
+   git clone https://github.com/YOUR_USER/groceries-dashboard.git
+   cd groceries-dashboard
+
+3. Create a virtual environment:
+   python -m venv .venv
+
+4. Activate it:
+   .venv\Scripts\activate
+
+5. Install dependencies:
+   pip install -r requirements.txt
+
+6. Run the dashboard:
+   streamlit run app.py
+
+   The browser will open automatically at http://localhost:8501
+
+Notes:
+- Python 3.8+ must be installed on the lab PC
+- Internet is required only during setup (steps 2 & 5)
+- Once running, the dashboard works fully offline
+- Press Ctrl+C in the terminal to stop the app
