@@ -285,74 +285,268 @@ st.set_page_config(page_title="Groceries Association Rules", page_icon="🛒", l
 st.markdown(
     """
     <style>
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.6); }
+            100% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.3); }
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
         body, .main, .stApp {
-            background-color: #0f172a;
+            background: linear-gradient(-45deg, #0f172a, #1e1b4b, #0f172a, #1a0a2e) !important;
+            background-size: 400% 400% !important;
+            animation: gradientShift 15s ease infinite !important;
             color: #e2e8f0;
         }
         .block-container, .element-container, .stMarkdown, .stButton {
-            background: rgba(15, 23, 42, 0.95) !important;
-            border: 1px solid rgba(148, 163, 184, 0.16) !important;
-            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25) !important;
+            background: rgba(15, 23, 42, 0.7) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            border: 1px solid rgba(148, 163, 184, 0.12) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
             border-radius: 18px !important;
+            animation: fadeInUp 0.6s ease-out !important;
+        }
+        .stApp header {
+            background: rgba(15, 23, 42, 0.5) !important;
+            backdrop-filter: blur(8px) !important;
         }
         .stButton>button {
-            background: #1f2937 !important;
+            background: linear-gradient(135deg, #1e293b, #334155) !important;
             color: #e2e8f0 !important;
-            border: 1px solid #334155 !important;
+            border: 1px solid rgba(99, 102, 241, 0.2) !important;
             border-radius: 10px !important;
             padding: 0.8rem 1rem !important;
-            transition: background-color 0.2s ease, transform 0.2s ease;
+            transition: all 0.3s ease !important;
+            position: relative !important;
+            overflow: hidden !important;
         }
         .stButton>button:hover {
-            background-color: #334155 !important;
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, #312e81, #4338ca) !important;
+            border-color: rgba(99, 102, 241, 0.6) !important;
+            transform: translateY(-2px) scale(1.02) !important;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3) !important;
         }
-        .stApp h1, .stApp h2, .stApp h3, .stApp h4 {
+        .stButton>button:active {
+            transform: translateY(0) scale(0.98) !important;
+        }
+        .stApp h1 {
+            background: linear-gradient(135deg, #f8fafc, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: "Inter", sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .stApp h2 {
+            background: linear-gradient(135deg, #e2e8f0, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: "Inter", sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            padding-top: 0.5rem;
+        }
+        .stApp h3, .stApp h4 {
             color: #f8fafc;
             font-family: "Inter", sans-serif;
         }
         section[data-testid="stSidebar"] {
-            background: #0f172a !important;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(30, 27, 75, 0.9)) !important;
+            backdrop-filter: blur(16px) !important;
+            border-right: 1px solid rgba(148, 163, 184, 0.08) !important;
         }
         section[data-testid="stSidebar"] .block-container,
         section[data-testid="stSidebar"] .element-container {
-            background: rgba(15, 23, 42, 0.95) !important;
-            border: 1px solid rgba(148, 163, 184, 0.16) !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
         }
-        .stDataFrame, .stTable, .css-1lcbmhc, .css-1v3fvcr {
-            background: rgba(15, 23, 42, 0.95) !important;
+        section[data-testid="stSidebar"] hr {
+            border-color: rgba(148, 163, 184, 0.15) !important;
+        }
+        section[data-testid="stSidebar"] .stSlider label {
+            color: #cbd5e1 !important;
+        }
+        .stDataFrame, .stTable {
+            background: rgba(15, 23, 42, 0.6) !important;
+            backdrop-filter: blur(8px) !important;
             color: #e2e8f0 !important;
-            border: 1px solid rgba(148, 163, 184, 0.16) !important;
+            border: 1px solid rgba(148, 163, 184, 0.1) !important;
+            border-radius: 12px !important;
+            overflow: hidden !important;
         }
         .stDataFrame td, .stDataFrame th, .stTable td, .stTable th {
-            background: #0f172a !important;
+            background: rgba(15, 23, 42, 0.4) !important;
             color: #e2e8f0 !important;
+            border-color: rgba(148, 163, 184, 0.08) !important;
+            padding: 12px 16px !important;
+        }
+        .stDataFrame th {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.8), rgba(15, 23, 42, 0.8)) !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.5px !important;
+        }
+        .stDataFrame tr:hover td {
+            background: rgba(99, 102, 241, 0.08) !important;
         }
         .metric-container, .stMetric, .stMetric>div {
-            background: rgba(15, 23, 42, 0.95) !important;
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.6), rgba(15, 23, 42, 0.6)) !important;
+            backdrop-filter: blur(8px) !important;
+            color: #e2e8f0 !important;
+            border: 1px solid rgba(99, 102, 241, 0.15) !important;
+            border-radius: 16px !important;
+            padding: 16px !important;
+            animation: glowPulse 3s ease-in-out infinite !important;
+        }
+        .stMetric label {
+            color: #94a3b8 !important;
+            font-size: 0.85rem !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+        }
+        .stMetric [data-testid="stMetricValue"] {
+            font-size: 2rem !important;
+            font-weight: 700 !important;
+            background: linear-gradient(135deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stSlider div[data-baseweb="slider"] div {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+        }
+        .stSlider div[data-baseweb="slider"] div[role="slider"] {
+            background: #818cf8 !important;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5) !important;
+        }
+        .st-emotion-cache-1y4p8pa {
+            padding: 2rem 1.5rem !important;
+        }
+        .st-emotion-cache-183lzff {
+            font-family: "Inter", "Segoe UI", sans-serif !important;
+        }
+        iframe[title="plotly"] {
+            border-radius: 12px !important;
+            animation: fadeInUp 0.8s ease-out !important;
+        }
+        .stCaption {
+            color: #94a3b8 !important;
+        }
+        div.stTabs button {
+            background: rgba(15, 23, 42, 0.6) !important;
+            color: #94a3b8 !important;
+            border: 1px solid rgba(148, 163, 184, 0.1) !important;
+            border-radius: 8px !important;
+            transition: all 0.3s ease !important;
+        }
+        div.stTabs button:hover {
+            background: rgba(99, 102, 241, 0.1) !important;
             color: #e2e8f0 !important;
         }
-        .css-1d391kg, .css-1lcbmhc {
-            background: transparent !important;
+        div.stTabs button[aria-selected="true"] {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(124, 58, 237, 0.2)) !important;
+            color: #f8fafc !important;
+            border-color: rgba(99, 102, 241, 0.3) !important;
         }
-        .css-1y0tads, .css-1r6slb0 {
+        .stAlert {
+            background: rgba(30, 27, 75, 0.6) !important;
+            backdrop-filter: blur(8px) !important;
+            border: 1px solid rgba(99, 102, 241, 0.15) !important;
             color: #e2e8f0 !important;
+        }
+        .st-bb, .st-bc {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+        }
+        .st-cx {
+            color: #818cf8 !important;
         }
     </style>
     """,
     unsafe_allow_html=True,
 )
-st.title("Groceries Frequent Pattern Mining Dashboard")
-st.caption("Interactive exploration of frequent itemsets and association rules from the grocery transactions dataset")
+
+st.markdown(
+    """
+    <div style="text-align: center; padding: 1.5rem 0 0.5rem 0; animation: fadeInUp 0.6s ease-out;">
+        <h1 style="
+            background: linear-gradient(135deg, #f8fafc, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin: 0;
+        ">Groceries Frequent Pattern Mining Dashboard</h1>
+        <p style="
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            letter-spacing: 0.3px;
+        ">Interactive exploration of frequent itemsets and association rules from the grocery transactions dataset</p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 with st.sidebar:
-    st.header("Mining controls")
+    st.markdown(
+        """
+        <div style="text-align: center; padding: 0.5rem 0 1rem 0;">
+            <div style="font-size: 2.5rem; animation: float 3s ease-in-out infinite;">🛒</div>
+            <h3 style="
+                background: linear-gradient(135deg, #f8fafc, #818cf8);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin: 0.5rem 0 0 0;
+            ">Mining Controls</h3>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
     min_support = st.slider("Minimum support", 0.005, 0.05, 0.02, 0.005)
     min_confidence = st.slider("Minimum confidence", 0.1, 0.9, 0.3, 0.05)
     top_n = st.slider("Top N items / rules", 5, 58, 10, 1)
 
-    st.markdown("---")
-    st.caption("Dataset: [Groceries Dataset on Kaggle](https://www.kaggle.com/datasets/irfanasrullah/groceries). This dashboard uses the same grocery transaction workflow from the notebook and updates the results as the thresholds change.")
+    st.markdown(
+        """
+        <hr style="border-color: rgba(148, 163, 184, 0.1); margin: 1rem 0;">
+        <div style="
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(124, 58, 237, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+        ">
+            <p style="color: #94a3b8; font-size: 0.8rem; margin: 0; line-height: 1.5;">
+                Dataset: <a href="https://www.kaggle.com/datasets/irfanasrullah/groceries" style="color: #818cf8; text-decoration: none;">Groceries Dataset on Kaggle</a>
+            </p>
+            <p style="color: #64748b; font-size: 0.75rem; margin: 0.5rem 0 0 0; line-height: 1.4;">
+                Adjust the thresholds below to explore how itemsets and rules change in real time.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 results = build_mining_results(min_support=min_support, min_confidence=min_confidence)
 
@@ -371,14 +565,7 @@ if rules.empty:
     st.info("No rules matched the selected thresholds. Try lowering support or confidence.")
 else:
     display_rules = prepare_rules_for_display(rules[["antecedents", "consequents", "support", "confidence", "lift"]]).head(top_n)
-    styled_rules = display_rules.style.set_properties(**{
-        'background-color': '#0f172a',
-        'color': '#e2e8f0',
-        'border-color': '#334155',
-    }).set_table_styles([
-        {'selector': 'th', 'props': [('background-color', '#111827'), ('color', '#e2e8f0'), ('border-color', '#334155')]}
-    ])
-    st.dataframe(styled_rules, width="stretch")
+    st.dataframe(display_rules, width="stretch")
 
 st.subheader("Visualizations")
 
@@ -483,11 +670,4 @@ if frequent_itemsets.empty:
     st.info("No frequent itemsets reached the selected support threshold.")
 else:
     frequent_preview = prepare_itemsets_for_display(frequent_itemsets.sort_values(by=["support", "itemsets"], ascending=[False, True]).head(top_n))
-    styled_preview = frequent_preview.style.set_properties(**{
-        'background-color': '#0f172a',
-        'color': '#e2e8f0',
-        'border-color': '#334155',
-    }).set_table_styles([
-        {'selector': 'th', 'props': [('background-color', '#111827'), ('color', '#e2e8f0'), ('border-color', '#334155')]}
-    ])
-    st.dataframe(styled_preview, width="stretch")
+    st.dataframe(frequent_preview, width="stretch")
