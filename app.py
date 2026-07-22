@@ -370,9 +370,19 @@ st.markdown(
             font-family: "Inter", sans-serif;
         }
         section[data-testid="stSidebar"] {
-            background: linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(30, 27, 75, 0.9)) !important;
-            backdrop-filter: blur(16px) !important;
-            border-right: 1px solid rgba(148, 163, 184, 0.08) !important;
+            background: #0a0f1e !important;
+            border-right: 1px solid rgba(148, 163, 184, 0.06) !important;
+            position: relative !important;
+        }
+        section[data-testid="stSidebar"]::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed, #4f46e5);
+            z-index: 1;
         }
         section[data-testid="stSidebar"] .block-container,
         section[data-testid="stSidebar"] .element-container {
@@ -381,10 +391,16 @@ st.markdown(
             box-shadow: none !important;
         }
         section[data-testid="stSidebar"] hr {
-            border-color: rgba(148, 163, 184, 0.15) !important;
+            border-color: rgba(148, 163, 184, 0.08) !important;
+            margin: 1.2rem 0 !important;
         }
         section[data-testid="stSidebar"] .stSlider label {
-            color: #cbd5e1 !important;
+            color: #94a3b8 !important;
+            font-size: 0.8rem !important;
+            font-weight: 500 !important;
+        }
+        section[data-testid="stSidebar"] .st-emotion-cache-1wivap2 {
+            padding: 1.5rem 1rem !important;
         }
         .stDataFrame, .stTable {
             background: rgba(15, 23, 42, 0.6) !important;
@@ -431,13 +447,6 @@ st.markdown(
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .stSlider div[data-baseweb="slider"] div {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
-        }
-        .stSlider div[data-baseweb="slider"] div[role="slider"] {
-            background: #818cf8 !important;
-            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5) !important;
-        }
         .st-emotion-cache-1y4p8pa {
             padding: 2rem 1.5rem !important;
         }
@@ -473,12 +482,6 @@ st.markdown(
             border: 1px solid rgba(99, 102, 241, 0.15) !important;
             color: #e2e8f0 !important;
         }
-        .st-bb, .st-bc {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
-        }
-        .st-cx {
-            color: #818cf8 !important;
-        }
     </style>
     """,
     unsafe_allow_html=True,
@@ -511,38 +514,29 @@ st.markdown(
 with st.sidebar:
     st.markdown(
         """
-        <div style="text-align: center; padding: 0.5rem 0 1rem 0;">
-            <div style="font-size: 2.5rem; animation: float 3s ease-in-out infinite;">🛒</div>
-            <h3 style="
-                background: linear-gradient(135deg, #f8fafc, #818cf8);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                margin: 0.5rem 0 0 0;
-            ">Mining Controls</h3>
+        <div style="padding: 0.3rem 0 1rem 0;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.8rem;">🛒</span>
+                <div>
+                    <div style="font-size: 1.1rem; font-weight: 600; color: #f1f5f9; letter-spacing: -0.3px;">Controls</div>
+                    <div style="font-size: 0.75rem; color: #64748b; margin-top: 1px;">Adjust mining parameters</div>
+                </div>
+            </div>
         </div>
         """,
         unsafe_allow_html=True,
     )
+
     min_support = st.slider("Minimum support", 0.005, 0.05, 0.02, 0.005)
     min_confidence = st.slider("Minimum confidence", 0.1, 0.9, 0.3, 0.05)
     top_n = st.slider("Top N items / rules", 5, 58, 10, 1)
 
     st.markdown(
         """
-        <hr style="border-color: rgba(148, 163, 184, 0.1); margin: 1rem 0;">
-        <div style="
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(124, 58, 237, 0.1));
-            border: 1px solid rgba(99, 102, 241, 0.15);
-            border-radius: 12px;
-            padding: 0.8rem 1rem;
-        ">
-            <p style="color: #94a3b8; font-size: 0.8rem; margin: 0; line-height: 1.5;">
-                Dataset: <a href="https://www.kaggle.com/datasets/irfanasrullah/groceries" style="color: #818cf8; text-decoration: none;">Groceries Dataset on Kaggle</a>
-            </p>
-            <p style="color: #64748b; font-size: 0.75rem; margin: 0.5rem 0 0 0; line-height: 1.4;">
-                Adjust the thresholds below to explore how itemsets and rules change in real time.
-            </p>
+        <hr>
+        <div style="font-size: 0.72rem; color: #64748b; line-height: 1.5; word-wrap: break-word; overflow-wrap: break-word;">
+            Dataset: <a href="https://www.kaggle.com/datasets/irfanasrullah/groceries" style="color: #818cf8; text-decoration: none;">Groceries Dataset</a>
+            &middot; Explore how itemsets and rules change as you adjust thresholds.
         </div>
         """,
         unsafe_allow_html=True,
