@@ -352,7 +352,7 @@ with st.sidebar:
     top_n = st.slider("Top N items / rules", 5, 58, 10, 1)
 
     st.markdown("---")
-    st.caption("This dashboard uses the same grocery transaction workflow from the notebook and updates the results as the thresholds change.")
+    st.caption("Dataset: [Groceries Dataset on Kaggle](https://www.kaggle.com/datasets/irfanasrullah/groceries). This dashboard uses the same grocery transaction workflow from the notebook and updates the results as the thresholds change.")
 
 results = build_mining_results(min_support=min_support, min_confidence=min_confidence)
 
